@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>برای مبینا ❤️ | یه حرف مهم از ته دل</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💌</text></svg>">
+</head>
+
+<body>
+
+  <!-- ========================================== -->
+  <!-- 0. Romantic Password Gate & Pen Zoom Transition -->
+  <!-- ========================================== -->
+  <div class="password-gate-backdrop" id="password-gate-overlay">
+    <div class="password-card glass-panel" id="password-card">
+      <div class="lock-icon-halo">
+        <span class="pulsing-heart">💖</span>
+        <span class="lock-emoji">🔐</span>
+      </div>
+      <h2 class="password-title">رمز رو وارد کن خوشگله</h2>
+      <p class="password-subtitle">
+        این صفحه خصوصی و عاشقانه، فقط برای چشم‌های قشنگ <strong>مبینا</strong> ساخته شده... ✨
+      </p>
+
+      <form id="password-form" class="password-form">
+        <div class="password-input-group">
+          <span class="input-icon">💌</span>
+          <input type="password" id="site-password-input" placeholder="رمز ورود اختصاصی..." autocomplete="off" autofocus>
+          <button type="button" id="toggle-pwd-visibility" class="toggle-pwd-btn" title="نمایش/مخفی‌سازی رمز">👁️</button>
+        </div>
+        <p class="password-error-msg" id="password-error-msg"></p>
+        <button type="submit" id="submit-password-btn" class="submit-pwd-btn">
+          <span>ورود به دنیای ما ❤️</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Zoom-in Fountain Pen Reveal Screen -->
+  <div class="pen-zoom-overlay" id="pen-zoom-overlay">
+    <div class="pen-zoom-container" id="pen-zoom-container">
+      <div class="golden-fountain-pen" id="golden-fountain-pen">
+        <svg viewBox="0 0 120 400" class="fountain-pen-svg" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffe699"/>
+              <stop offset="35%" stop-color="#f5af19"/>
+              <stop offset="70%" stop-color="#e65c00"/>
+              <stop offset="100%" stop-color="#ffe699"/>
+            </linearGradient>
+            <linearGradient id="nibGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#fff2b2"/>
+              <stop offset="50%" stop-color="#f1c40f"/>
+              <stop offset="100%" stop-color="#b7860b"/>
+            </linearGradient>
+            <radialGradient id="sparkleGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ff4d80" stop-opacity="1"/>
+              <stop offset="60%" stop-color="#f5af19" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <!-- Pen Body -->
+          <path d="M45,150 L40,320 Q60,340 80,320 L75,150 Z" fill="#2b0a1a" stroke="url(#goldGradient)" stroke-width="4"/>
+          <!-- Pen Grip -->
+          <path d="M45,100 L45,150 L75,150 L75,100 Z" fill="url(#goldGradient)"/>
+          <!-- Pen Golden Band -->
+          <rect x="42" y="145" width="36" height="10" rx="3" fill="#ffe699"/>
+          <!-- Nib Section -->
+          <path d="M46,100 L60,10 L74,100 Z" fill="url(#nibGradient)" stroke="#fff" stroke-width="1"/>
+          <!-- Nib Slit & Breathing Hole -->
+          <circle cx="60" cy="50" r="3.5" fill="#2b0a1a"/>
+          <line x1="60" y1="10" x2="60" y2="50" stroke="#2b0a1a" stroke-width="2"/>
+          <path d="M54,65 Q60,75 66,65" fill="none" stroke="#2b0a1a" stroke-width="1.5"/>
+          <!-- Nib Heart Engraving -->
+          <path d="M60,60 C58,56 53,56 53,60 C53,64 60,69 60,69 C60,69 67,64 67,60 C67,56 62,56 60,60 Z" fill="#e74c3c"/>
+          <!-- Sparkle Tip -->
+          <circle cx="60" cy="10" r="16" fill="url(#sparkleGlow)" class="nib-sparkle-glow"/>
+        </svg>
+        <div class="ink-burst-ring"></div>
+      </div>
+      <div class="zoom-welcome-text" id="zoom-welcome-text">خوش اومدی مبینای من ❤️</div>
+    </div>
+  </div>
+
+  <!-- Floating 3D Rose Petals & Particles Canvas Background -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- Ambient Audio Controls (Mini Retro Gramophone Player) -->
+  <header class="top-nav">
+    <div class="audio-control-pill mini-gramophone-pill" id="audio-pill">
+      <button id="audio-toggle-btn" class="audio-btn mini-gramophone-btn" aria-label="پخش گرامافون نوستالژیک">
+        <!-- Mini Retro Vinyl Record with Tonearm -->
+        <div class="mini-turntable" id="mini-turntable" title="پخش / توقف گرامافون">
+          <div class="mini-vinyl" id="mini-vinyl">
+            <div class="mini-vinyl-groove"></div>
+            <div class="mini-vinyl-label">🌹</div>
+          </div>
+          <div class="mini-tonearm" id="mini-tonearm"></div>
+        </div>
+        <span class="music-label" id="music-label">پخش آهنگ خونه من</span>
+        <div class="sound-wave" id="sound-wave">
+          <span></span><span></span><span></span><span></span>
+        </div>
+      </button>
+    </div>
+
+  </header>
+
+  <!-- Main Container -->
+  <main class="page-container">
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        <span id="display-target-name">برای مبینای عزیزم</span>
+      </div>
+
+      <h1 class="hero-title">
+        گاهی وقتا کلمه‌ها کمه، <br>
+        ولی <span class="gradient-text">حرف دلم</span> رو باید می‌شنیدی...
+      </h1>
+
+      <p class="hero-subtitle">
+        می‌دونم شاید الان ازم ناراحت باشی و کاملاً حق داری، اما این چند خط رو فقط برای تو ساختم تا بدونی چقدر برام
+        باارزشی...
+      </p>
+    </section>
+
+    <!-- Love Counter Section (Live Relationship Timer) -->
+    <section class="love-counter-section glass-panel" id="love-counter">
+      <div class="counter-header">
+        <span class="counter-badge">⏳ زمان آغاز باهم بودنمون</span>
+        <h3>از ۲۳ سپتامبر ۲۰۲۳ (۱ مهر ۱۴۰۲) تا همین ثانیه...</h3>
+        <p>هر لحظه‌ای که کنار تو گذشت، باارزش‌ترین دارایی زندگی من بوده:</p>
+      </div>
+
+      <div class="timer-grid">
+        <div class="timer-box">
+          <span class="timer-number" id="timer-days">--</span>
+          <span class="timer-label">روز</span>
+        </div>
+        <div class="timer-box">
+          <span class="timer-number" id="timer-hours">--</span>
+          <span class="timer-label">ساعت</span>
+        </div>
+        <div class="timer-box">
+          <span class="timer-number" id="timer-minutes">--</span>
+          <span class="timer-label">دقیقه</span>
+        </div>
+        <div class="timer-box live-sec">
+          <span class="timer-number" id="timer-seconds">--</span>
+          <span class="timer-label">ثانیه</span>
+        </div>
+      </div>
+
+      <p class="counter-footer-text">
+        ✨ هیچ دلخوری‌ای نمی‌تونه به اندازه این همه روز و لحظه قشنگ دوام بیاره...
+      </p>
+    </section>
+
+    <!-- Apology Letter Section (Interactive 3D Envelope) -->
+    <section class="letter-section" id="letter-section">
+      <div class="section-heading">
+        <span class="sub-label">حرف دل من</span>
+        <h2>نامه‌ای که با همه وجودم نوشتم</h2>
+      </div>
+
+      <div class="envelope-container" id="envelope-container">
+        <!-- پاکت نامه واقعی و تعاملی -->
+        <div class="letter-envelope" id="letter-envelope" title="برای باز کردن پاکت نامه کلیک کنید">
+          <!-- پس‌زمینه داخل پاکت -->
+          <div class="envelope-back"></div>
+
+          <!-- لبه کاغذ نامه درون پاکت -->
+          <div class="letter-peek">
+            <span class="peek-line"></span>
+            <span class="peek-line short"></span>
+          </div>
+
+          <!-- درب بالای پاکت (Flap) که به بالا باز می‌شود -->
+          <div class="envelope-flap" id="envelope-flap">
+            <div class="flap-triangle"></div>
+            <div class="wax-seal">
+              <span class="wax-heart">❤️</span>
+              <span class="wax-label">لمس کن</span>
+            </div>
+          </div>
+
+          <!-- جیب جلویی پاکت نامه -->
+          <div class="envelope-front">
+            <div class="envelope-fold fold-left"></div>
+            <div class="envelope-fold fold-right"></div>
+            <div class="envelope-fold fold-bottom"></div>
+            <div class="envelope-address">
+              <span class="address-tag">تقدیم با تمام عشق به:</span>
+              <strong id="letter-to-name">مبینا ❤️</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- متن کامل نامه پس از باز شدن -->
+        <div class="letter-paper" id="letter-paper">
+          <div class="paper-header">
+            <span class="paper-date" id="paper-date">همین الان، از اعماق قلبم</span>
+            <div class="typewriter-toolbar">
+              <button id="skip-typewriter-btn" class="tw-btn" title="نمایش سریع و فوری متن">⏩ نمایش فوری</button>
+              <button id="replay-typewriter-btn" class="tw-btn" title="بازنویسی با قلم">↺ نگارش با قلم</button>
+            </div>
+            <span class="paper-pin">🌹</span>
+          </div>
+          <div class="paper-body">
+            <!-- Floating Calligraphy Pen Indicator -->
+            <div class="handwriting-pen-cursor" id="handwriting-pen-cursor" style="display: none;">
+              <span class="pen-nib">✒️</span>
+              <span class="ink-sparkle"></span>
+            </div>
+            <h3 id="letter-heading">مبینای قشنگم، سلام...</h3>
+            <p id="letter-body-p1">
+              می‌دونم دلت چقدر گرفته و چقدر از این دلخوری‌ها و فاصله‌ها خسته‌ای. می‌دونم شاید با خودت بگی زمان و فرصت‌هام هدر رفت و از اینکه دوباره حالت بد بشه می‌ترسی. من بابت تمام اشتباهام از صمیم قلبم معذرت می‌خوام؛ ولی اگه بگم <strong>تورو از خودم بیشتر دوست دارم</strong> ذره‌ای دروغ نگفتم. تمام اون سختی‌ها فقط وقتی معنی هدر رفتن می‌ده که این عشق به ثمر نرسه... ولی من تمام وجودم بسیج شده که این رابطه رو به قشنگ‌ترین مقصدش برسونم.
+            </p>
+            <p id="letter-body-p2">
+              به جون عزیزترین کسم قسم می‌خورم که نگاه من به تو و این رابطه با همیشه فرق داره؛ من دیگه اصلاً به چشم یک دوستی ساده بهت نگاه نمی‌کنم، من <strong>تورو برای کل زندگی و آینده‌م می‌خوام</strong> و تا آخر عمرم می‌خوام کنارت نفس بکشم. هر مشکلی که سر راهمون باشه — از خانواده و مادرت تا فاطمه و تک‌تک دغدغه‌هات — خودم پشتتم و مثل کوه همه‌چیز رو حل می‌کنم. مبینا، من حتی نسبت به اسفند هم عوض شدم و حاضر به هر کاری هستم که فقط اعتماد دوباره‌ت رو به دست بیارم.
+            </p>
+            <p id="letter-body-p3">
+              همون‌طوری که خودم ناخواسته باعث این حس‌های تلخ شدم، فقط و فقط خودم می‌تونم مرهم این دل شکسته‌ت باشم و تمومش رو از ذهنت پاک کنم. ازت نمی‌خوام فقط رو حرف قبول کنی یا از فردا همه‌چیز مثل قبل بشه؛ فقط بهم نگو دیره... یک کلام نگو نه. <strong>فقط یک راه باریک بهم بده</strong> که دوباره منو بشناسی و سبک‌سنگین کنی تا با تک‌تک سلول‌های بدنم بهت ثابت کنم که این پارسا، تورو روی سرش می‌ذاره و هیچ‌چیز توی این دنیا دیگه نمی‌تونه ما رو از هم جدا کنه... تا همیشه عاشقتم. ❤️
+            </p>
+
+          </div>
+          <div class="paper-footer">
+            <div class="signature">
+              <span class="letter-sign-text">همیشه با عشق و احترام،</span>
+              <span class="letter-signature" id="letter-from-name">پارسا ❤️</span>
+            </div>
+            <div class="paper-close-wrap">
+              <button class="close-letter-btn" id="close-letter-btn">
+                <span>📩 بستن مجدد پاکت نامه</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Polaroid Memories Gallery (عکس‌های دو نفره و واقعی) -->
+    <section class="polaroid-section" id="polaroid-gallery">
+      <div class="section-heading">
+        <span class="sub-label">آلبوم یادگاری‌هامون</span>
+        <h2>گالری لحظه‌های قشنگمون 📸</h2>
+        <p class="section-desc">روی هر عکس ضربه بزن تا بچرخه و یادداشت پشتش رو بخونی!</p>
+      </div>
+
+      <div class="polaroid-grid">
+        <!-- Photo 1 -->
+        <div class="polaroid-card" style="--rotation: -2deg;">
+          <div class="polaroid-inner">
+            <div class="polaroid-front">
+              <div class="washi-tape"></div>
+              <div class="photo-wrapper">
+                <img src="images/IMG_4219.jpg" alt="خاطره شروع باهم بودنمون" loading="lazy">
+              </div>
+              <div class="polaroid-caption">روزهای اول شروع عشقمون... 🕊️</div>
+            </div>
+            <div class="polaroid-back">
+              <h4>یادش بخیر...</h4>
+              <p>همون روزایی که هر بار می‌دیدمت قلبم تندتر می‌زد. هیچ‌وقت شوق اون روزها برام کمرنگ نمی‌شه مبینا.</p>
+              <span class="card-hint">🔄 لمس مجدد برای برگشت</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 2 -->
+        <div class="polaroid-card" style="--rotation: 3deg;">
+          <div class="polaroid-inner">
+            <div class="polaroid-front">
+              <div class="washi-tape"></div>
+              <div class="photo-wrapper">
+                <img src="images/IMG_4339.jpg" alt="اولین لبخندها" loading="lazy">
+              </div>
+              <div class="polaroid-caption">لبخندی که دنیامو عوض کرد ✨</div>
+            </div>
+            <div class="polaroid-back">
+              <h4>قشنگ‌ترین خنده</h4>
+              <p>خنده‌هات قوی‌ترین داروی آرامش‌بخش دنیاست. حیف نیست چشمات ابری باشه؟</p>
+              <span class="card-hint">🔄 لمس مجدد برای برگشت</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 3 -->
+        <div class="polaroid-card" style="--rotation: -3deg;">
+          <div class="polaroid-inner">
+            <div class="polaroid-front">
+              <div class="washi-tape"></div>
+              <div class="photo-wrapper">
+                <img src="images/IMG_4783.jpg" alt="پاییز خاطره‌انگیز" loading="lazy">
+              </div>
+              <div class="polaroid-caption">پاییز رویایی با تو 🍁</div>
+            </div>
+            <div class="polaroid-back">
+              <h4>کنار تو همه‌جا قشنگه</h4>
+              <p>مهم نیست هوا چطوره یا کجاییم، وقتی دستات تو دستامه من خوشبخت‌ترین آدمم.</p>
+              <span class="card-hint">🔄 لمس مجدد برای برگشت</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 4 -->
+        <div class="polaroid-card" style="--rotation: 2deg;">
+          <div class="polaroid-inner">
+            <div class="polaroid-front">
+              <div class="washi-tape"></div>
+              <div class="photo-wrapper">
+                <img src="images/IMG_5633.jpg" alt="خاطرات زمستون" loading="lazy">
+              </div>
+              <div class="polaroid-caption">گرمای وجودت در سرمای زمستون ❄️❤️</div>
+            </div>
+            <div class="polaroid-back">
+              <h4>همیشه تو قلبمی</h4>
+              <p>هیچ سرمایی حریف گرمای عشق و توجه تو نمی‌شه مبینا.</p>
+              <span class="card-hint">🔄 لمس مجدد برای برگشت</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 5 -->
+        <div class="polaroid-card" style="--rotation: -1.5deg;">
+          <div class="polaroid-inner">
+            <div class="polaroid-front">
+              <div class="washi-tape"></div>
+              <div class="photo-wrapper">
+                <img src="images/IMG_6058.JPG" alt="ولنتاین شیرینمون" loading="lazy">
+              </div>
+              <div class="polaroid-caption">ولنتاین و یادگاری‌های ماندگار 🌹</div>
+            </div>
+            <div class="polaroid-back">
+              <h4>عشق بی‌پایان</h4>
+              <p>هر روزی که با توام برام مثل روز عشقه. هیچ‌وقت عشقم بهت تکراری نمی‌شه.</p>
+              <span class="card-hint">🔄 لمس مجدد برای برگشت</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 6 -->
+        <div class="polaroid-card" style="--rotation: 2.5deg;">
+          <div class="polaroid-inner">
+            <div class="polaroid-front">
+              <div class="washi-tape"></div>
+              <div class="photo-wrapper">
+                <img src="images/IMG_6066.JPG" alt="خنده‌های از ته دل" loading="lazy">
+              </div>
+              <div class="polaroid-caption">شادترین لحظه‌های باهم بودن 🥰</div>
+            </div>
+            <div class="polaroid-back">
+              <h4>قول همیشگی</h4>
+              <p>قول می‌دم همیشه تمام تلاشم رو بکنم تا دوباره از ته دلت اینطوری بخندی.</p>
+              <span class="card-hint">🔄 لمس مجدد برای برگشت</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 7 -->
+        <div class="polaroid-card" style="--rotation: -2.5deg;">
+          <div class="polaroid-inner">
+            <div class="polaroid-front">
+              <div class="washi-tape"></div>
+              <div class="photo-wrapper">
+                <img src="images/IMG_6990.JPG" alt="تابستون کنار هم" loading="lazy">
+              </div>
+              <div class="polaroid-caption">روزهای آفتابی و قشنگ تابستون ☀️</div>
+            </div>
+            <div class="polaroid-back">
+              <h4>بهترین همسفرم</h4>
+              <p>زندگی کنار تو یه سفر شگفت‌انگیزه، حاضر نیستم حتی یه روزش رو بدون تو باشم.</p>
+              <span class="card-hint">🔄 لمس مجدد برای برگشت</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 8 -->
+        <div class="polaroid-card" style="--rotation: 1deg;">
+          <div class="polaroid-inner">
+            <div class="polaroid-front">
+              <div class="washi-tape"></div>
+              <div class="photo-wrapper">
+                <img src="images/IMG_7335.JPG" alt="پاییز دوباره با تو" loading="lazy">
+              </div>
+              <div class="polaroid-caption">هر پاییز، عاشق‌تر از قبل 🍂</div>
+            </div>
+            <div class="polaroid-back">
+              <h4>تا همیشه...</h4>
+              <p>فصل‌ها عوض می‌شن ولی جای تو گوشه قلب من همیشه ثابته و امن‌ترین جاست.</p>
+              <span class="card-hint">🔄 لمس مجدد برای برگشت</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 9 (عکس جدید اضافه شده) -->
+        <div class="polaroid-card" style="--rotation: -2deg;">
+          <div class="polaroid-inner">
+            <div class="polaroid-front">
+              <div class="washi-tape"></div>
+              <div class="photo-wrapper">
+                <img src="images/IMG_5677.jpg" alt="خاطره فراموش‌نشدنی دو نفره" loading="lazy">
+              </div>
+              <div class="polaroid-caption">لحظه‌های نابی که تکرار نمی‌شن... 🕊️✨</div>
+            </div>
+            <div class="polaroid-back">
+              <h4>آرامش واقعی</h4>
+              <p>هربار به این عکس نگاه می‌کنم یاد آرامش اون روز می‌افتم. بودن با تو قشنگ‌ترین اتفاق زندگی منه مبینا.</p>
+              <span class="card-hint">🔄 لمس مجدد برای برگشت</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sweet Jar of Messages (مورد ۴: شیشه اعتراف‌ها و حرف‌های دلم) -->
+    <section class="jar-section" id="sweet-jar">
+      <div class="section-heading">
+        <span class="sub-label">حرف‌های یواشکی</span>
+        <h2>شیشه اعتراف‌ها و رازهای دلم 🫙✨</h2>
+        <p class="section-desc">روی دکمه بزن تا یک کاغذ رنگی تاخورده از شیشه بیرون بیاد!</p>
+      </div>
+
+      <div class="jar-container glass-panel">
+        <div class="jar-illustration">
+          <div class="glass-jar">
+            <div class="jar-lid"></div>
+            <div class="jar-neck"></div>
+            <div class="jar-body">
+              <div class="floating-note note-1">💌</div>
+              <div class="floating-note note-2">💖</div>
+              <div class="floating-note note-3">✨</div>
+              <div class="floating-note note-4">🕊️</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="jar-interaction">
+          <button id="draw-note-btn" class="draw-note-button">
+            <span>یک یادداشت از شیشه بیرون بکش 📜</span>
+          </button>
+
+          <div class="opened-note-display" id="opened-note-display">
+            <div class="note-pin">📌</div>
+            <p id="note-text-content">
+              برای خوندن اولین اعتراف روی دکمه بالا بزن... ✨
+            </p>
+            <span class="note-counter" id="note-counter">یادداشت ۱ از ۸</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Why You Are Special Section -->
+    <section class="reasons-section" id="reasons">
+      <div class="section-heading">
+        <span class="sub-label">چرا تو برام متفاوتی؟</span>
+        <h2>چیزهایی که هیچ‌وقت یادم نمیره</h2>
+      </div>
+
+      <div class="cards-grid">
+        <div class="reason-card glass-panel">
+          <div class="card-icon-wrap">✨</div>
+          <h3>لبخندت که معجزه می‌کنه</h3>
+          <p>وقتی از ته دل می‌خندی، انگار همه دغدغه‌ها و خستگی‌های دنیا یه لحظه متوقف می‌شن.</p>
+        </div>
+
+        <div class="reason-card glass-panel">
+          <div class="card-icon-wrap">💖</div>
+          <h3>حس ناب و آرامش حضورت</h3>
+          <p>وقتی کنارمی، تمام شلوغی و دغدغه‌های دنیا برام ساکت می‌شن؛ تو امن‌ترین و قشنگ‌ترین پناه دل منی.</p>
+        </div>
+
+        <div class="reason-card glass-panel">
+          <div class="card-icon-wrap">☕</div>
+          <h3>خاطرات دوتاییمون</h3>
+          <p>از صحبت‌های چندساعته گرفته تا لحظه‌های ساده‌ای که فقط وقتی کنار همیم معنی پیدا می‌کنن.</p>
+        </div>
+
+        <div class="reason-card glass-panel">
+          <div class="card-icon-wrap">🔒</div>
+          <h3>امنیت و آرامشت</h3>
+          <p>جایی که همیشه می‌تونم خودم باشم بدون ترس از قضاوت شدن، کنار توئه مبینا.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reconciliation Coupons Section -->
+    <section class="coupons-section" id="coupons">
+      <div class="section-heading">
+        <span class="sub-label">کوپن‌های دلجویی</span>
+        <h2>کوپن‌های طلایی آشتی (مخصوص مبینا)</h2>
+        <p class="section-desc">روی هر کوپن بزن تا مهر بخوره و فعال بشه؛ اعتبارشون دائمیه!</p>
+      </div>
+
+      <div class="coupons-grid">
+        <div class="coupon-card" data-coupon-id="1">
+          <div class="coupon-edge"></div>
+          <div class="coupon-content">
+            <span class="coupon-badge">طلایی</span>
+            <h4>یک روز فرمانروایی کامل! 👑</h4>
+            <p>در طول یک روز کامل، هر برنامه‌ای بذاری یا هرچی بگی فقط چشم می‌شنوی!</p>
+            <div class="coupon-action">
+              <button class="redeem-btn">فعال‌سازی کوپن ✨</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="coupon-card" data-coupon-id="2">
+          <div class="coupon-edge"></div>
+          <div class="coupon-content">
+            <span class="coupon-badge">گردش و ماجراجویی</span>
+            <h4>سفر یا دوردور اختصاصی دونفره 🚗🛣️✨</h4>
+            <p>هر مقصد یا جاده‌ای که خودت دوست داشته باشی؛ با آهنگ‌های قشنگ و خوراکی‌های خوشمزه، ماشین و روز در اختیار توئه!</p>
+            <div class="coupon-action">
+              <button class="redeem-btn">فعال‌سازی کوپن ✨</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="coupon-card" data-coupon-id="3">
+          <div class="coupon-edge"></div>
+          <div class="coupon-content">
+            <span class="coupon-badge">احساسی</span>
+            <h4>گفتگوی بدون قضاوت ☕</h4>
+            <p>هرچقدر دلت خواست حرف بزن، من سراپا گوشم و تمام حواسم فقط پیش توئه.</p>
+            <div class="coupon-action">
+              <button class="redeem-btn">فعال‌سازی کوپن ✨</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="coupon-card" data-coupon-id="4">
+          <div class="coupon-edge"></div>
+          <div class="coupon-content">
+            <span class="coupon-badge">حق مطلق</span>
+            <h4>کارت صددرصد حق با توئه! 🎯</h4>
+            <p>قابل استفاده در هر زمان، هر بحثی یا هر تصمیمی بدون کوچک‌ترین مخالفتی.</p>
+            <div class="coupon-action">
+              <button class="redeem-btn">فعال‌سازی کوپن ✨</button>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <!-- مورد ۵: کهکشان و صورت فلکی تعاملی مبینا (Constellation Galaxy) -->
+    <section class="constellation-section" id="constellation-section">
+      <div class="section-heading">
+        <span class="sub-label">آسمان شب اختصاصی</span>
+        <h2>صورت فلکی عشق ما 🌌✨</h2>
+        <p class="section-desc">روی ستاره‌ها ضربه بزن یا به هم وصلشون کن تا راز آسمون روشن بشه!</p>
+      </div>
+
+      <div class="constellation-container glass-panel">
+        <div class="constellation-toolbar">
+          <span class="constellation-mode-btn active" style="cursor: default;">پیوند قلب‌ها (P ❤️ M) 💖</span>
+          <button id="reset-constellation-btn" class="constellation-reset-btn" title="شروع مجدد">↺ اتصال دوباره</button>
+        </div>
+
+        <div class="constellation-sky">
+          <canvas id="constellation-canvas" width="680" height="360"></canvas>
+          <div class="constellation-hint" id="constellation-hint">
+            <span>✨ ستاره اول رو لمس کن تا خطوط نوری متصل بشن...</span>
+          </div>
+        </div>
+
+        <div class="constellation-revealed" id="constellation-revealed">
+          <div class="cosmic-glow-badge">🌟 صورت فلکی کامل شد!</div>
+          <h3 id="constellation-message-title">«تو درخشان‌ترین ستاره کهکشان منی مبینا»</h3>
+          <p id="constellation-message-desc">توی تاریک‌ترین روزها، نگاه و لبخند تو راهنمای دل منه... هیچ‌وقت نذار این
+            ستاره کم‌نور بشه ❤️</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- مینی‌گیم تعاملی: رینگ دلجویی و بوکس مبینا -->
+    <section class="boxing-ring-section" id="mobina-ring">
+      <div class="section-heading">
+        <span class="sub-label">تخلیه حرص و دلخوری</span>
+        <h2>رینگ بوکس و دلجویی مبینا 🥊🥰</h2>
+        <p class="section-desc">حق داری عصبانی باشی! روی دکمه یا روی پارسا بزن تا مبینا چندتا مشت نرمال و پرعشق بزنه تا دلت خنک شه!</p>
+      </div>
+
+      <div class="boxing-arena glass-panel">
+        <div class="ring-status-header">
+          <div class="rage-meter-container">
+            <div class="rage-meter-label">
+              <span>درجه آرامش و خنک شدن دل مبینا:</span>
+              <strong id="rage-percent-text">۰٪</strong>
+            </div>
+            <div class="rage-meter-track">
+              <div class="rage-meter-fill" id="rage-meter-fill"></div>
+            </div>
+          </div>
+          <div class="punch-counter-pill" id="punch-counter-pill">
+            <span>مشت‌های عاشقانه:</span> <strong id="punch-count">۰</strong>
+          </div>
+        </div>
+
+        <!-- Boxing Canvas / Ring Stage -->
+        <div class="ring-stage" id="ring-stage">
+          <div class="ring-ropes">
+            <div class="rope rope-top"></div>
+            <div class="rope rope-mid"></div>
+            <div class="rope rope-bottom"></div>
+            <div class="ring-post post-left"></div>
+            <div class="ring-post post-right"></div>
+          </div>
+
+          <!-- Characters Area -->
+          <div class="fighters-row">
+            <!-- Mobina (The Cute Champion) -->
+            <div class="fighter-card fighter-mobina" id="fighter-mobina">
+              <div class="fighter-tag">قهرمان رینگ 👑</div>
+              <div class="character-avatar mobina-avatar">
+                <!-- SVG Cute Mobina Avatar (Princess Tiara + Honey-Amber Eyes + No Glasses) -->
+                <svg viewBox="0 0 120 150" class="avatar-svg" id="mobina-svg">
+                  <!-- Hair Back (Long luscious dark hair cascading down) -->
+                  <circle cx="60" cy="56" r="41" fill="#181316"/>
+                  <path d="M19,62 Q10,115 32,142 Q38,118 30,76 Z" fill="#181316"/>
+                  <path d="M101,62 Q110,115 88,142 Q82,118 90,76 Z" fill="#181316"/>
+                  <path d="M26,105 Q18,135 34,146 Q36,132 29,112 Z" fill="#241b21"/>
+                  <path d="M94,105 Q102,135 86,146 Q84,132 91,112 Z" fill="#241b21"/>
+
+                  <!-- Body: Black Streetwear Hoodie (Matching IMG_5677) -->
+                  <path d="M38,94 L82,94 L94,146 L26,146 Z" fill="#19151c"/>
+                  <!-- Hoodie Collar & Strings -->
+                  <path d="M48,94 Q60,108 72,94 Z" fill="#26202b"/>
+                  <line x1="55" y1="102" x2="53" y2="128" stroke="#f1f5f9" stroke-width="2" stroke-linecap="round"/>
+                  <line x1="65" y1="102" x2="67" y2="128" stroke="#f1f5f9" stroke-width="2" stroke-linecap="round"/>
+
+                  <!-- Head & Soft Skin -->
+                  <circle cx="60" cy="55" r="32" fill="#ffebd9"/>
+                  <!-- Delicate Chin contour -->
+                  <ellipse cx="60" cy="80" rx="9" ry="4" fill="#ffebd9"/>
+
+                  <!-- Hair Front & Middle-Part Bangs -->
+                  <path d="M24,46 Q60,20 96,46 Q60,32 24,46 Z" fill="#181316"/>
+                  <path d="M27,45 Q38,62 36,78 Q29,62 25,50 Z" fill="#241b21"/>
+                  <path d="M93,45 Q82,62 84,78 Q91,62 95,50 Z" fill="#241b21"/>
+
+                  <!-- Eyebrows (Neat feminine arches) -->
+                  <path d="M42,44 Q49,41 55,44" fill="none" stroke="#251c20" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M65,44 Q71,41 78,44" fill="none" stroke="#251c20" stroke-width="2" stroke-linecap="round"/>
+
+                  <!-- Gorgeous Honey-Amber / Hazel Almond Eyes (چشمان قهوه‌ای عسلی درخشان) -->
+                  <ellipse cx="48" cy="54" rx="5.2" ry="4.5" fill="#ffffff"/>
+                  <ellipse cx="72" cy="54" rx="5.2" ry="4.5" fill="#ffffff"/>
+                  <circle cx="48" cy="54" r="3.8" fill="#803d18"/>
+                  <circle cx="72" cy="54" r="3.8" fill="#803d18"/>
+                  <circle cx="48.5" cy="54" r="2.5" fill="#c47a2b"/>
+                  <circle cx="72.5" cy="54" r="2.5" fill="#c47a2b"/>
+                  <circle cx="48" cy="54" r="1.6" fill="#2d1406"/>
+                  <circle cx="72" cy="54" r="1.6" fill="#2d1406"/>
+                  <circle cx="49.8" cy="52" r="1.3" fill="#ffffff"/>
+                  <circle cx="73.8" cy="52" r="1.3" fill="#ffffff"/>
+                  <circle cx="46.8" cy="55.2" r="0.7" fill="#ffffff"/>
+                  <circle cx="70.8" cy="55.2" r="0.7" fill="#ffffff"/>
+                  <path d="M53,51 L57,48.5" stroke="#181316" stroke-width="1.8" stroke-linecap="round"/>
+                  <path d="M77,51 L81,48.5" stroke="#181316" stroke-width="1.8" stroke-linecap="round"/>
+
+                  <!-- Rosy Cheeks -->
+                  <ellipse cx="40" cy="65" rx="5.5" ry="3.5" fill="#ff6b8b" opacity="0.6"/>
+                  <ellipse cx="80" cy="65" rx="5.5" ry="3.5" fill="#ff6b8b" opacity="0.6"/>
+
+                  <!-- Cute Pouty Rose Lips (Matching photo duck-face) -->
+                  <ellipse cx="60" cy="69" rx="4.5" ry="3" fill="#d83a56"/>
+                  <path d="M57,69 Q60,71 63,69" stroke="#9e1935" stroke-width="1" fill="none"/>
+
+                  <!-- Sparkling Princess Tiara (تاج پرنسسی ظریف با نگین یاقوت قلب) -->
+                  <g id="princess-tiara">
+                    <path d="M40,28 Q60,33 80,28" fill="none" stroke="#f5af19" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M42,28 Q46,18 51,26 Q60,9 69,26 Q74,18 78,28" fill="none" stroke="#ffd700" stroke-width="2.2" stroke-linejoin="round"/>
+                    <circle cx="46" cy="18" r="2.2" fill="#ff7698"/>
+                    <circle cx="74" cy="18" r="2.2" fill="#ff7698"/>
+                    <path d="M60,11 L56,16 Q60,21 64,16 Z" fill="#ff2a6d"/>
+                    <circle cx="60" cy="14" r="1.3" fill="#ffffff"/>
+                    <circle cx="51" cy="23" r="1.2" fill="#ffd700"/>
+                    <circle cx="69" cy="23" r="1.2" fill="#ffd700"/>
+                    <text x="60" y="7" font-size="10" text-anchor="middle">✨</text>
+                  </g>
+                </svg>
+                <!-- Punching Glove Arm -->
+                <div class="boxing-glove-arm" id="mobina-glove">
+                  <span class="glove-emoji">🥊</span>
+                </div>
+              </div>
+              <strong class="fighter-name">مبینا ✨</strong>
+            </div>
+
+            <!-- VS Badge -->
+            <div class="vs-badge">
+              <span class="vs-text">VS</span>
+              <div class="hit-impact-spark" id="hit-impact-spark">💥</div>
+            </div>
+
+            <!-- Parsa (Apologetic Target) -->
+            <div class="fighter-card fighter-parsa" id="fighter-parsa">
+              <div class="fighter-tag tag-apology">شرمنده و منتظر آشتی 🥺</div>
+              <div class="character-avatar parsa-avatar" id="parsa-avatar">
+                <!-- SVG Cute Parsa Avatar (Full Hair + Bruise on Hit) -->
+                <svg viewBox="0 0 120 150" class="avatar-svg" id="parsa-svg">
+                  <!-- Full Stylish Modern Hair (موی پرپشت، حالت‌دار و فید تمیز) -->
+                  <circle cx="60" cy="52" r="34" fill="#140f13"/>
+                  <!-- Pompadour / Quiff Volume on Top -->
+                  <path d="M22,46 Q16,8 55,7 Q88,7 98,32 Q80,20 60,22 Q32,22 22,46 Z" fill="#1b1418"/>
+                  <!-- Hair Layers & Texture Highlights -->
+                  <path d="M26,36 Q46,14 70,16 Q88,20 94,34" fill="none" stroke="#2e2229" stroke-width="3" stroke-linecap="round"/>
+                  <path d="M32,24 Q52,11 76,14" fill="none" stroke="#3e2f38" stroke-width="2.2" stroke-linecap="round"/>
+                  <!-- Sharp Shaved Part Line -->
+                  <line x1="38" y1="28" x2="48" y2="22" stroke="#fcdbc8" stroke-width="2" stroke-linecap="round"/>
+                  <!-- Clean Sideburns -->
+                  <path d="M28,42 L28,62 L33,62 L33,46 Z" fill="#1b1418"/>
+                  <path d="M92,42 L92,62 L87,62 L87,46 Z" fill="#1b1418"/>
+
+                  <!-- Body: Dark Navy Sweatshirt (Matching IMG_5677) -->
+                  <path d="M36,94 L84,94 L94,146 L26,146 Z" fill="#1a2538"/>
+                  <!-- Crewneck collar -->
+                  <path d="M47,94 Q60,105 73,94 Z" fill="#27364f"/>
+
+                  <!-- Head & Warm Skin -->
+                  <circle cx="60" cy="55" r="32" fill="#fcdbc8"/>
+
+                  <!-- Defined Masculine Eyebrows -->
+                  <path d="M41,45 Q48,43 54,47" fill="none" stroke="#1a1417" stroke-width="2.8" stroke-linecap="round"/>
+                  <path d="M66,47 Q72,43 79,45" fill="none" stroke="#1a1417" stroke-width="2.8" stroke-linecap="round"/>
+
+                  <!-- Sweat Drop on forehead/side -->
+                  <text x="83" y="44" font-size="16" class="sweat-drop" id="parsa-sweat">💧</text>
+
+                  <!-- Normal Expression (Apologetic puppy-dog look + mustache + goatee) -->
+                  <g id="parsa-face-normal">
+                    <!-- Subtle early hit bruise mark -->
+                    <ellipse id="parsa-hit-mark" cx="48" cy="56" rx="8" ry="6" fill="#701a75" opacity="0" style="transition: opacity 0.3s;"/>
+                    <ellipse id="parsa-hit-bump-early" cx="68" cy="38" rx="7" ry="5" fill="#831843" opacity="0" style="transition: opacity 0.3s;"/>
+                    <!-- Expressive dark eyes -->
+                    <circle cx="48" cy="55" r="4" fill="#1b1417"/>
+                    <circle cx="72" cy="55" r="4" fill="#1b1417"/>
+                    <circle cx="49.5" cy="53.5" r="1.4" fill="#fff"/>
+                    <circle cx="73.5" cy="53.5" r="1.4" fill="#fff"/>
+
+                    <!-- Trimmed Mustache (Matching IMG_5677 & IMG_8111) -->
+                    <path d="M48,68 Q54,65 60,67 Q66,65 72,68 Q66,70 60,68 Q54,70 48,68 Z" fill="#1a1316"/>
+
+                    <!-- Apologetic Mouth -->
+                    <path d="M54,72 Q60,69 66,72" fill="none" stroke="#7e1f37" stroke-width="2" stroke-linecap="round"/>
+
+                    <!-- Trimmed Chin Goatee / Beard (Matching IMG_5677 & IMG_8111) -->
+                    <ellipse cx="60" cy="82" rx="6" ry="3.5" fill="#1a1316"/>
+                    <path d="M44,78 Q60,88 76,78 Q68,88 60,89 Q52,88 44,78 Z" fill="#1a1316" opacity="0.6"/>
+                  </g>
+
+                  <!-- Dizzy Expression (Hidden initially, shown after hits) -->
+                  <g id="parsa-face-dizzy" style="display: none;">
+                    <!-- Massive Multi-Layered Cartoon Bruises (کبودی‌های شدید چشم، گونه و پیشانی) -->
+                    <!-- Outer Dark Purple / Indigo Black Eye -->
+                    <ellipse cx="48" cy="56" rx="12" ry="9.5" fill="#3b0764" opacity="0.7"/>
+                    <ellipse cx="48.5" cy="56.5" rx="8.5" ry="6.8" fill="#1e1b4b" opacity="0.6"/>
+                    <ellipse cx="48" cy="59" rx="10" ry="4" fill="#831843" opacity="0.5"/>
+
+                    <!-- Right Cheek Swollen Purple Bruise -->
+                    <ellipse cx="76" cy="65" rx="10" ry="7.5" fill="#701a75" opacity="0.6"/>
+                    <ellipse cx="74" cy="67" rx="7" ry="5" fill="#4a044e" opacity="0.5"/>
+
+                    <!-- Forehead Bruise & Big Cartoon Lump/Bump -->
+                    <ellipse cx="68" cy="35" rx="9" ry="6.5" fill="#581c87" opacity="0.6"/>
+                    <ellipse cx="38" cy="38" rx="7" ry="5" fill="#831843" opacity="0.55"/>
+
+                    <!-- Swirl / Spiral Eyes -->
+                    <text x="48" y="58" font-size="16" text-anchor="middle">😵‍💫</text>
+                    <text x="72" y="58" font-size="16" text-anchor="middle">💫</text>
+
+                    <!-- Bandages with Cute Cross Stitching -->
+                    <rect x="73" y="62" width="12" height="7" rx="2" fill="#ffd1b3" stroke="#e09f7a" stroke-width="1" transform="rotate(22 79 65)"/>
+                    <line x1="77" y1="63" x2="81" y2="67" stroke="#e09f7a" stroke-width="1"/>
+                    <line x1="81" y1="63" x2="77" y2="67" stroke="#e09f7a" stroke-width="1"/>
+                    <rect x="33" y="32" width="11" height="6" rx="2" fill="#ffd1b3" stroke="#e09f7a" stroke-width="1" transform="rotate(-15 38 35)"/>
+                    <line x1="36" y1="33" x2="40" y2="37" stroke="#e09f7a" stroke-width="1"/>
+
+                    <!-- Mustache & Dizzy Wobbly Mouth -->
+                    <path d="M48,68 Q54,65 60,67 Q66,65 72,68 Z" fill="#1a1316"/>
+                    <path d="M53,74 Q56,71 60,74 Q64,77 67,73" fill="none" stroke="#7e1f37" stroke-width="2.2" stroke-linecap="round"/>
+                    <ellipse cx="60" cy="82" rx="6" ry="3.5" fill="#1a1316"/>
+
+                    <!-- ================= BLOOD EFFECTS (افکت‌های خون کارتونی) ================= -->
+                    <!-- 1. Cartoon Nosebleed Drip (خون‌دماغ کارتونی سرازیر روی سبیل) -->
+                    <g id="parsa-blood-nose" opacity="0" style="transition: opacity 0.35s ease;">
+                      <path d="M58,66 C57,69 55,73 55,78 C55,81 58,83 59,81 C60,79 59,73 60,66 Z" fill="#b91c1c"/>
+                      <circle id="parsa-blood-nose-drop" cx="57" cy="85" r="1.8" fill="#dc2626"/>
+                      <circle cx="56.5" cy="84.5" r="0.6" fill="#fecaca"/>
+                    </g>
+
+                    <!-- 2. Lip Blood Trickle (خون گوشه لب چکه کرده روی چانه) -->
+                    <g id="parsa-blood-lip" opacity="0" style="transition: opacity 0.35s ease;">
+                      <path d="M67,73 C69,76 70,80 69,84 C68,86 66,86 66,84 C66,80 67,76 67,73 Z" fill="#dc2626"/>
+                      <circle id="parsa-blood-lip-drop" cx="68" cy="87.5" r="1.6" fill="#b91c1c"/>
+                      <circle cx="67.5" cy="87" r="0.5" fill="#fecaca"/>
+                    </g>
+
+                    <!-- 3. Forehead Cut with Blood Beads (زخم و قطرات خون پیشانی) -->
+                    <g id="parsa-blood-forehead" opacity="0" style="transition: opacity 0.35s ease;">
+                      <path d="M38,36 Q43,39 48,37" stroke="#b91c1c" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                      <circle cx="43" cy="42" r="1.7" fill="#dc2626"/>
+                      <circle cx="47" cy="44" r="1.3" fill="#b91c1c"/>
+                    </g>
+
+                    <!-- 4. Cheek Blood Spatters (لکه‌های پاشش خون روی گونه) -->
+                    <g id="parsa-blood-spatters" opacity="0" style="transition: opacity 0.35s ease;">
+                      <circle cx="73" cy="74" r="1.3" fill="#b91c1c"/>
+                      <circle cx="77" cy="76" r="1.6" fill="#dc2626"/>
+                      <circle cx="43" cy="68" r="1.4" fill="#b91c1c"/>
+                    </g>
+                  </g>
+
+                  <!-- White Flag (Surrender) -->
+                  <g id="parsa-surrender-flag" style="display: none;">
+                    <text x="86" y="92" font-size="28">🏳️</text>
+                  </g>
+                </svg>
+                <!-- Floating Reaction Speech Bubble -->
+                <div class="parsa-speech-bubble" id="parsa-speech">
+                  <span>بزن ولی آشتی کن! 🥺</span>
+                </div>
+              </div>
+              <strong class="fighter-name">پارسا 🙈</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ring Controls -->
+        <div class="ring-actions">
+          <button id="punch-btn" class="punch-action-btn" type="button">
+            <span class="punch-btn-icon">🥊</span>
+            <span class="punch-btn-text">بزن تو گوشش مبینا جان!</span>
+          </button>
+          <button id="reset-ring-btn" class="secondary-ring-btn" type="button" style="display: none;">
+            <span>↺ دوباره مشت بزن</span>
+          </button>
+        </div>
+
+        <!-- Ring Victory Banner -->
+        <div class="ring-victory-box" id="ring-victory-box" style="display: none;">
+          <div class="victory-icon">🎉🥰❤️</div>
+          <h3>«آخیش! دلت خنک شد مهربونم؟»</h3>
+          <p>پارسا تسلیم مطلق شد! تمام دلخوری‌ها به صفر رسید و حالا وقت بخشیدنه...</p>
+          <a href="#the-question" class="scroll-to-question-btn">
+            <span>بریم برای آشتی نهایی 👇💖</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Climax: Apology Question with Runaway Button -->
+    <section class="apology-question-section" id="the-question">
+      <div class="question-container glass-panel">
+        <div class="question-emoji" id="question-emoji">🥺</div>
+        <h2 class="question-title">حالا با همه این حرفا...</h2>
+        <p class="question-text">
+          مبینا جان، من واقعاً پشیمونم و دلم بدجوری برات تنگ شده... <br>
+          <strong>منو می‌بخشی و آشتی می‌کنی؟</strong>
+        </p>
+
+        <div class="buttons-playground" id="buttons-area">
+          <button id="yes-btn" class="yes-button">
+            <span class="btn-sparkle">💖</span>
+            <span class="btn-text">آره، بخشیدمت عزیزم!</span>
+          </button>
+
+          <button id="no-btn" class="no-button">
+            نه هنوز ناراحتم 😤
+          </button>
+        </div>
+
+        <p class="hint-caption" id="hint-caption">
+          (دکمه «نه» یکم شیطونه و ممکنه زیر بار نره! 😉)
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- فوتر کوچک و رمانتیک انتهای سایت -->
+  <footer class="site-footer">
+    <p class="love-footer-text">ساخته شده با عشق ❤️</p>
+  </footer>
+
+  <!-- مورد ۳: قرارداد رسمی صلح و آشتی (Peace Treaty Scroll Modal) -->
+  <div class="modal-backdrop" id="peace-treaty-modal">
+    <div class="treaty-scroll-wrapper">
+      <div class="parchment-scroll">
+        <div class="scroll-roller top-roller"></div>
+
+        <div class="treaty-inner">
+          <div class="treaty-header">
+            <div class="treaty-emblem">🕊️❤️⚖️</div>
+            <h2>پیمان‌نامه رسمی صلح و دوستی دائمی</h2>
+            <p class="treaty-sub">منعقده فی‌مابین پارسا و مبینا</p>
+          </div>
+
+          <div class="treaty-articles">
+            <div class="article-item">
+              <strong>ماده ۱ (تعهد اخلاقی):</strong>
+              طرف اول (پارسا) متعهد می‌شود همواره قدردان مهربانی و صبوری طرف دوم (مبینا) بوده و تمام تلاش خود را برای
+              شادمانی و محافظت از لبخند او به کار بندد.
+            </div>
+            <div class="article-item">
+              <strong>ماده ۲ (عفو عمومی):</strong>
+              طرف دوم (مبینا) با لطف و مناعت طبع بی‌نظیر خود، تمام سوءتفاهمات اخیر را به دست فراموشی سپرده و پرونده قهر
+              را رسماً و برای همیشه مختومه اعلام می‌دارد.
+            </div>
+            <div class="article-item">
+              <strong>ماده ۳ (ضمانت اجرایی):</strong>
+              طرفین متعهد می‌گردند در اولین فرصت، یک قرار دونفره (شامل غذا و دسر خوشمزه) ترتیب داده و از لحظات باهم بودن
+              لذت ببرند.
+            </div>
+          </div>
+
+          <!-- Digital Signature Box -->
+          <div class="signature-section">
+            <p class="sig-title">محل امضای دیجیتال مبینا (با انگشت یا ماوس روی کادر زیر امضا کن):</p>
+            <div class="canvas-container">
+              <canvas id="signature-canvas" width="360" height="130"></canvas>
+              <div class="sig-line">امضای مبارک مبینا ✍️</div>
+              <button id="clear-sig-btn" class="clear-sig-btn" title="پاک کردن امضا">پاک کردن ↺</button>
+            </div>
+            <button id="confirm-sig-btn" class="confirm-treaty-btn">
+              <span>تایید و ثبت رسمی صلح 📜🖋️</span>
+            </button>
+            <div id="treaty-stamp" class="official-stamp">
+              <span>تایید و تصویب شد</span>
+              <small>اعتبار دائمی ❤️</small>
+            </div>
+          </div>
+
+          <!-- مورد ۵: دکمه‌های ارتباط مستقیم بعد از بخشیدن -->
+          <div class="direct-connect-actions" id="direct-actions">
+            <p class="connect-prompt">حالا که آشتی کردیم، یه پیام یا زنگ بزن تا دلم آروم بگیره:</p>
+            <div class="connect-buttons-row">
+              <a href="tel:+989373688242" id="call-parsa-btn" class="connect-action-btn call-btn">
+                <span>📞 تماس مستقیم با پارسا</span>
+              </a>
+              <a href="https://t.me/share/url?url=%D8%B3%D9%84%D8%A7%D9%85%20%D9%BE%D8%A7%D8%B1%D8%B3%D8%A7%20%D8%AC%D8%A7%D9%86%D8%8C%20%D8%B3%D8%A7%DB%8C%D8%AA%20%D8%B1%D9%88%20%D8%AF%DB%8C%D8%AF%D9%85%20%D9%88%20%D8%A8%D8%AE%D8%B4%DB%8C%D8%AF%D9%85%D8%AA%20%E2%9D%A4%EF%B8%8F"
+                target="_blank" id="telegram-parsa-btn" class="connect-action-btn telegram-btn">
+                <span>💬 پیام به پارسا در تلگرام</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="treaty-footer-close">
+            <button id="close-treaty-btn" class="secondary-modal-btn">بستن و ادامه تماشای خاطرات 🌹</button>
+          </div>
+        </div>
+
+        <div class="scroll-roller bottom-roller"></div>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>
